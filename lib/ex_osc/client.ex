@@ -82,15 +82,8 @@ defmodule ExOSC.Client do
   end
 
   @impl true
-  def handle_info({:udp, socket, ip, port, data}, %State{socket: socket} = state) do
-    case state.target do
-      {^ip, ^port} ->
-        {:noreply, [OSC.Message.parse(data)], state}
-
-      {_, _} ->
-        Logger.warning("Ignoring message from unknown sender #{inspect(ip)}:#{inspect(port)}")
-        {:noreply, [], state}
-    end
+  def handle_info({:udp, socket, _ip, _port, data}, %State{socket: socket} = state) do
+    {:noreply, [OSC.Message.parse(data)], state}
   end
 
   @impl true
