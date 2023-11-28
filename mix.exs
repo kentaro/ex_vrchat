@@ -1,11 +1,11 @@
 defmodule ExOSC.MixProject do
   use Mix.Project
 
-  @github_url "https://github.com/wisq/ex_osc"
+  @github_url "https://github.com/kentaro/ex_vrchat"
 
   def project do
     [
-      app: :ex_osc,
+      app: :ex_vrchat,
       version: "0.1.1",
       elixir: "~> 1.14",
       start_permanent: Mix.env() == :prod,
