@@ -24,10 +24,11 @@ defmodule ExOSC.Client do
 
   defmodule State do
     @moduledoc false
-    @enforce_keys [:socket, :target]
+    @enforce_keys [:socket, :target, :listen]
     defstruct(
       socket: nil,
-      target: nil
+      target: nil,
+      listen: nil
     )
   end
 
@@ -55,8 +56,9 @@ defmodule ExOSC.Client do
   def start_link(opts) do
     {ip, opts} = Keyword.pop!(opts, :ip)
     {port, opts} = Keyword.pop!(opts, :port)
+    {listen, opts} = Keyword.pop!(opts, :listen)
 
-    GenStage.start_link(__MODULE__, {ip, port}, opts)
+    GenStage.start_link(__MODULE__, {ip, port, listen}, opts)
   end
 
   @doc """
@@ -68,9 +70,9 @@ defmodule ExOSC.Client do
   end
 
   @impl true
-  def init({_ip, _port} = target) do
-    {:ok, socket} = :gen_udp.open(0, [:binary, {:active, true}])
-    {:producer, %State{socket: socket, target: target}}
+  def init({ip, port, listen}) do
+    {:ok, socket} = :gen_udp.open(listen, [:binary, {:active, true}])
+    {:producer, %State{socket: socket, target: {ip, port}, listen: listen}}
   end
 
   @impl true
@@ -86,7 +88,7 @@ defmodule ExOSC.Client do
         {:noreply, [OSC.Message.parse(data)], state}
 
       {_, _} ->
-        Logger.warn("Ignoring message from unknown sender #{inspect(ip)}:#{inspect(port)}")
+        Logger.warning("Ignoring message from unknown sender #{inspect(ip)}:#{inspect(port)}")
         {:noreply, [], state}
     end
   end
