@@ -1,4 +1,4 @@
-defmodule ExOSC.Client do
+defmodule VRChatOSC.OSC.Client do
   @moduledoc """
   A module for sending and receiving messages to/from an OSC server.
 
@@ -9,7 +9,7 @@ defmodule ExOSC.Client do
   The client will act as a `GenStage` producer.  To receive responses to your
   requests, you should create a `GenStage` consumer (or consumer-producer) and
   subscribe it to the PID returned by `start_link/1`.  Each event will be a
-  decoded `OSC.Message` structure.
+  decoded `VRChatOSC.OSC.Message` structure.
 
   Due to the stateless nature of the OSC protocol, it is up to the user of this
   library to ensure there is actually an OSC server at the target IP and port.
@@ -20,7 +20,7 @@ defmodule ExOSC.Client do
   require Logger
   use GenStage
 
-  alias OSC.Message
+  alias VRChatOSC.OSC.Message
 
   defmodule State do
     @moduledoc false
@@ -36,7 +36,11 @@ defmodule ExOSC.Client do
   @type options :: [option]
 
   @typedoc "Option values used by `start_link/1`"
-  @type option :: {:ip, :inet.ip_address()} | {:port, :inet.port_number()} | GenServer.option()
+  @type option ::
+          {:ip, :inet.ip_address()}
+          | {:port, :inet.port_number()}
+          | {:listen, :inet.port_number()}
+          | GenServer.option()
 
   @doc """
   Starts a client that will send and receive OSC messages to/from a target IP and port.
@@ -45,6 +49,7 @@ defmodule ExOSC.Client do
 
     * `:ip` (required) - target IP in tuple form
     * `:port` (required) - target UDP port
+    * `:listen` (required) - client UDP port
 
   This function also accepts all the options accepted by `GenServer.start_link/3`.
 
@@ -83,7 +88,7 @@ defmodule ExOSC.Client do
 
   @impl true
   def handle_info({:udp, socket, _ip, _port, data}, %State{socket: socket} = state) do
-    {:noreply, [OSC.Message.parse(data)], state}
+    {:noreply, [Message.parse(data)], state}
   end
 
   @impl true

@@ -1,6 +1,6 @@
-defmodule OSC.Types.FloatTest do
+defmodule VRChatOSC.OSC.Types.FloatTest do
   use ExUnit.Case, async: true
-  alias OSC.Types.Float, as: F
+  alias VRChatOSC.OSC.Types.Float, as: F
   doctest F
 
   test "Types.Float.type_tag/1 is `f`" do

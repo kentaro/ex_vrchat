@@ -1,12 +1,12 @@
-defmodule OSC.Types do
+defmodule VRChatOSC.OSC.Types do
   @moduledoc """
-  Encoding and decoding of the possible `args` types in an `OSC.Message`.
-
+  Encoding and decoding of the possible `args` types in an `VRChatOSC.OSC.Message`.
+  
   Encoded messages contain a "type tag string" (encoded as an OSC "string"
   type), starting with a comma, where each subsequent letter indicates the type
   of the respective argument.  For example, `",sif"` indicates a message whose
   three arguments are an OSC string, integer, and float, respectively.
-
+  
   Thus, to decode arguments, we need to know the type tag string; and when
   encoding arguments, we must also produce a type tag string.
   """
@@ -37,20 +37,20 @@ defmodule OSC.Types do
 
   @doc """
   Ensure that all arguments can be mapped to OSC types.
-
+  
   Raises `ArgumentError` if an argument is of a type that cannot be encoded.
-
+  
   Note that this only serves as a basic sanity check on argument types, and
   does not actually ensure that arguments can be encoded.  For example, it does
   not check the range of numeric types, nor does it check the contents of
   blobs.
-
+  
   ## Examples
-
-      iex> OSC.Types.validate_args([1, 2.0, [3, 4, 5], "str"])
+  
+      iex> VRChatOSC.OSC.Types.validate_args([1, 2.0, [3, 4, 5], "str"])
       :ok
-
-      iex> OSC.Types.validate_args([1, :atom, 12])
+  
+      iex> VRChatOSC.OSC.Types.validate_args([1, :atom, 12])
       ** (ArgumentError) Unknown OSC type: :atom
   """
   @spec validate_args(args) :: :ok
@@ -60,17 +60,17 @@ defmodule OSC.Types do
 
   @doc """
   Encode arguments into an OSC type tag string and encoded binaries.
-
+  
   Returns `{tags, encoded}` where `tags` is the tag string, and `encoded` is a
   list of each encoded argument.
-
+  
   Note that the tag string will itself need to be encoded before sending, using
   `OSC.Types.String.encode/1`.  The encoded tag string can then be concatenated
-  with the remaining binaries to form the argument portion of an `OSC.Message`.
-
+  with the remaining binaries to form the argument portion of an `VRChatOSC.OSC.Message`.
+  
   ## Example
-
-      iex> OSC.Types.encode_args([1.0, 2, [3], "4"])
+  
+      iex> VRChatOSC.OSC.Types.encode_args([1.0, 2, [3], "4"])
       {",fibs", [
         <<63, 128, 0, 0>>,             # float:   1.0
         <<0, 0, 0, 2>>,                # int:     2
@@ -86,7 +86,7 @@ defmodule OSC.Types do
       |> Enum.reduce({[], []}, &encode_args_reduce/2)
 
     {
-      [',' | tags] |> :erlang.list_to_binary(),
+      [~c"," | tags] |> :erlang.list_to_binary(),
       encodes
     }
   end
@@ -101,18 +101,18 @@ defmodule OSC.Types do
 
   @doc """
   Decodes OSC arguments, given a decoded OSC type tag string.
-
+  
   The type tag string will need to be decoded first using
-  `OSC.Types.String.decode/1`.  This function will then determine which type
+  `VRChatOSC.OSC.Types.String.decode/1`.  This function will then determine which type
   decoder to use for each argument, based on the respective characters in the tag
   string.
-
+  
   Returns `{args, rest}` where `args` is the decoded args and `rest` is any
   data that was not consumed by the argument decoders.
-
+  
   ## Example
-
-      iex> OSC.Types.decode_args(",iiis", <<
+  
+      iex> VRChatOSC.OSC.Types.decode_args(",iiis", <<
       ...>   0, 0, 0, 3,
       ...>   0, 0, 0, 2,
       ...>   0, 0, 0, 1,

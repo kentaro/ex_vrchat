@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.2.0
+
+* Forked from [ex_osc](https://github.com/wisq/ex_osc) and reorganized the project.
+* Added support for VRChat OSC protocol.
+
 ## v0.1.2
 
 * Added `OSC.Message.path()` and `OSC.Message.args()` typespecs.

@@ -1,6 +1,6 @@
-defmodule OSC.TypesTest do
+defmodule VRChatOSC.OSC.TypesTest do
   use ExUnit.Case, async: true
-  alias OSC.Types
+  alias VRChatOSC.OSC.Types
   doctest Types
 
   test "Types.validate_args/1 raises on invalid argument" do

@@ -1,6 +1,6 @@
-defmodule OSC.Types.IntegerTest do
+defmodule VRChatOSC.OSC.Types.IntegerTest do
   use ExUnit.Case, async: true
-  alias OSC.Types.Integer, as: I
+  alias VRChatOSC.OSC.Types.Integer, as: I
   doctest I
 
   test "Types.Integer.type_tag/1 is i" do

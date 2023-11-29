@@ -1,7 +1,7 @@
-defmodule OSC.MessageTest do
+defmodule VRChatOSC.OSC.MessageTest do
   use ExUnit.Case, async: true
-  alias OSC.Message
-  alias OSC.Types
+  alias VRChatOSC.OSC.Message
+  alias VRChatOSC.OSC.Types
 
   test "Message.construct/2 creates message" do
     assert msg = Message.construct("/some/path", ["args"])

@@ -1,7 +1,7 @@
-defmodule OSC.Types.String do
+defmodule VRChatOSC.OSC.Types.String do
   @moduledoc """
   Encoding and decoding of the OSC string type.
-
+  
   There's minimal encoding and decoding required here, since the only
   requirement for an OSC string is that it end with a null byte (`"\\0"`) and
   that it be 32-bit aligned (like all OSC types).  As such, encoding just
@@ -14,29 +14,29 @@ defmodule OSC.Types.String do
 
   @doc """
   Returns `?s`, the type tag for the OSC integer type
-
-      iex> <<OSC.Types.String.type_tag()>>
+  
+      iex> <<VRChatOSC.OSC.Types.String.type_tag()>>
       "s"
   """
   def type_tag, do: ?s
 
   @doc """
   Encodes an Elixir string to an OSC string type.
-
+  
   Returns the encoded string, which will be the original string with 1 to 4
   null bytes (`"\\0"`) added as needed (to 32-bit align it).
-
+  
   The input string cannot itself contain any null bytes.
-
+  
   ## Examples
-
-      iex> "hello world" |> OSC.Types.String.encode()
+  
+      iex> "hello world" |> VRChatOSC.OSC.Types.String.encode()
       <<"hello world", 0>>
-
-      iex> "PadMe" |> OSC.Types.String.encode()
+  
+      iex> "PadMe" |> VRChatOSC.OSC.Types.String.encode()
       <<"PadMe", 0, 0, 0>>
-
-      iex> "multiple of four" |> OSC.Types.String.encode()
+  
+      iex> "multiple of four" |> VRChatOSC.OSC.Types.String.encode()
       <<"multiple of four", 0, 0, 0, 0>>
   """
   def encode(str) when is_binary(str) do
@@ -59,22 +59,22 @@ defmodule OSC.Types.String do
 
   @doc """
   Decodes an OSC string to an Elixir string.
-
+  
   Will search through the input data for a 32-bit (4-byte) block that ends with
   a null character (`"\\0"`), raising if it reaches the end without finding one.
-
+  
   Returns `{string, rest}`, where `string` is all data prior to the first null
   in the final block, and `rest` is a binary containing data after that block.
-
+  
   ## Examples
-
-      iex> "goodbye\\0world" |> OSC.Types.String.decode()
+  
+      iex> "goodbye\\0world" |> VRChatOSC.OSC.Types.String.decode()
       {"goodbye", "world"}
-
-      iex> "unaligned\\0\\0\\0rest" |> OSC.Types.String.decode()
+  
+      iex> "unaligned\\0\\0\\0rest" |> VRChatOSC.OSC.Types.String.decode()
       {"unaligned", "rest"}
-
-      iex> "nulblock\\0\\0\\0\\0after" |> OSC.Types.String.decode()
+  
+      iex> "nulblock\\0\\0\\0\\0after" |> VRChatOSC.OSC.Types.String.decode()
       {"nulblock", "after"}
   """
   def decode(<<0, 0, 0, 0, rest::binary>>), do: {<<>>, rest}

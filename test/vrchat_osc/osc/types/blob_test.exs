@@ -1,6 +1,6 @@
-defmodule OSC.Types.BlobTest do
+defmodule VRChatOSC.OSC.Types.BlobTest do
   use ExUnit.Case, async: true
-  alias OSC.Types.Blob, as: B
+  alias VRChatOSC.OSC.Types.Blob, as: B
   doctest B
 
   test "Types.Blob.encode/1 converts to binary and prepends size" do

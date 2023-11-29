@@ -1,12 +1,12 @@
-defmodule ExOSC.MixProject do
+defmodule VRChatOSC.MixProject do
   use Mix.Project
 
-  @github_url "https://github.com/kentaro/ex_vrchat"
+  @github_url "https://github.com/kentaro/vrchat_osc"
 
   def project do
     [
-      app: :ex_vrchat,
-      version: "0.1.1",
+      app: :vrchat_osc,
+      version: "0.2.0",
       elixir: "~> 1.14",
       start_permanent: Mix.env() == :prod,
       description: description(),
@@ -26,15 +26,14 @@ defmodule ExOSC.MixProject do
 
   defp description do
     """
-    ExOSC is a library for sending and receiving messages to/from audio
-    hardware that supports the OpenSoundControl 1.0 protocol.
+    VRChatOSC is a library for sending and receiving messages to/from VRChat that supports the OpenSoundControl 1.0 protocol.
     """
   end
 
   defp package do
     [
       files: ["lib", "mix.exs", "README.md", "CHANGELOG.md", "LICENSE"],
-      maintainers: ["Adrian Irving-Beer"],
+      maintainers: ["Kentaro Kuribayashi"],
       licenses: ["MIT"],
       links: %{GitHub: @github_url}
     ]
@@ -48,7 +47,7 @@ defmodule ExOSC.MixProject do
         "CHANGELOG.md"
       ],
       groups_for_modules: [
-        "Client API": ~r/^ExOSC\./,
+        "Client API": ~r/^VRChatOSC\./,
         "OSC Protocol": ~r/^OSC\./
       ]
     ]
@@ -57,8 +56,6 @@ defmodule ExOSC.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      # {:dep_from_hexpm, "~> 0.3.0"},
-      # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
       {:gen_stage, "~> 1.2.1"},
       {:ex_doc, "~> 0.27", only: :dev, runtime: false},
       {:mix_test_watch, "~> 1.0", only: :dev, runtime: false},

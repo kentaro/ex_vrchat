@@ -1,6 +1,6 @@
-defmodule OSC.Types.StringTest do
+defmodule VRChatOSC.OSC.Types.StringTest do
   use ExUnit.Case, async: true
-  alias OSC.Types.String, as: S
+  alias VRChatOSC.OSC.Types.String, as: S
   doctest S
 
   test "Types.String.type_tag/1 is s" do

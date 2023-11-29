@@ -1,4 +1,4 @@
-defmodule OSC.Types.Blob do
+defmodule VRChatOSC.OSC.Types.Blob do
   @moduledoc """
   Encoding and decoding of the OSC blob type.
 
@@ -8,10 +8,10 @@ defmodule OSC.Types.Blob do
   is 32-bit aligned (like all OSC datatypes).
 
   As such, this is a composite type that also uses the encoding and decoding
-  functions from `OSC.Types.Integer`.
+  functions from `VRChatOSC.OSC.Types.Integer`.
   """
 
-  alias OSC.Types
+  alias VRChatOSC.OSC.Types
 
   @typedoc "An OSC blob represented as a list of bytes"
   @type t :: [:erlang.byte()]
@@ -19,7 +19,7 @@ defmodule OSC.Types.Blob do
   @doc """
   Returns `?b`, the type tag for the OSC blob type
 
-      iex> <<OSC.Types.Blob.type_tag()>>
+      iex> <<VRChatOSC.OSC.Types.Blob.type_tag()>>
       "b"
   """
   def type_tag, do: ?b
@@ -28,18 +28,18 @@ defmodule OSC.Types.Blob do
   Encodes a list of bytes to an OSC blob type.
 
   The encoded data consists of the number of bytes encoded as an OSC integer
-  (see `OSC.Types.Integer.encode/1`), followed by the bytes in raw binary
+  (see `VRChatOSC.OSC.Types.Integer.encode/1`), followed by the bytes in raw binary
   format, followed by zero or more null characters until 32-bit aligned.
 
   ## Examples
 
-      iex> [1, 2, 3, 4] |> OSC.Types.Blob.encode()
+      iex> [1, 2, 3, 4] |> VRChatOSC.OSC.Types.Blob.encode()
       <<0, 0, 0, 4, 1, 2, 3, 4>>
 
-      iex> [1, 2, 3, 4, 5] |> OSC.Types.Blob.encode()
+      iex> [1, 2, 3, 4, 5] |> VRChatOSC.OSC.Types.Blob.encode()
       <<0, 0, 0, 5, 1, 2, 3, 4, 5, 0, 0, 0>>
 
-      iex> 'hello world' |> OSC.Types.Blob.encode()
+      iex> 'hello world' |> VRChatOSC.OSC.Types.Blob.encode()
       <<0, 0, 0, 11, 104, 101, 108, 108, 111, 32, 119, 111, 114, 108, 100, 0>>
   """
   @spec encode(t) :: binary
@@ -53,7 +53,7 @@ defmodule OSC.Types.Blob do
   @doc """
   Decodes an OSC blob to a list of bytes.
 
-  The blob must start with an OSC integer (see `OSC.Types.Integer.decode/1`)
+  The blob must start with an OSC integer (see `VRChatOSC.OSC.Types.Integer.decode/1`)
   that indicates the number of bytes in the blob.  After reading the blob
   contents, some additional bytes may be consumed (but discarded) as needed to
   reach the next 32-bit boundary.
@@ -63,10 +63,10 @@ defmodule OSC.Types.Blob do
 
   ## Examples
 
-      iex> <<0, 0, 0, 5, 1, 2, 3, 4, 5, 0, 0, 0, 123>> |> OSC.Types.Blob.decode()
+      iex> <<0, 0, 0, 5, 1, 2, 3, 4, 5, 0, 0, 0, 123>> |> VRChatOSC.OSC.Types.Blob.decode()
       {[1, 2, 3, 4, 5], <<123>>}
 
-      iex> <<0, 0, 0, 7, "goodbye world">> |> OSC.Types.Blob.decode()
+      iex> <<0, 0, 0, 7, "goodbye world">> |> VRChatOSC.OSC.Types.Blob.decode()
       {'goodbye', "world"}
   """
   def decode(binary) do
