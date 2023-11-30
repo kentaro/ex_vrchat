@@ -13,7 +13,7 @@ VRChatOSC requires Elixir v1.14.  To use it, add `:vrchat_osc` to your list of d
 ```elixir
 def deps do
   [
-    {:vrchat_osc, "~> 0.2.0"}
+    {:vrchat_osc, github: "kentaro/vrchat_osc", branch: :main}
   ]
 end
 ```
