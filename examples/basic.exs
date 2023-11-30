@@ -29,6 +29,6 @@ end
 VRChatOSC.OSC.send_message(
   osc,
   path: "/chatbox/input",
-  args: ["Hello, world!"]
+  args: ["Hello, world!", true]
 )
-Process.sleep(1000)
+Process.sleep(:infinity)
