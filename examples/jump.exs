@@ -8,7 +8,6 @@ defmodule MyConsumer do
   def handle_events(events, {_, _}, state) do
     events
     |> Enum.each(fn event ->
-      # IO.inspect(event)
       handle_event(event)
     end)
 
