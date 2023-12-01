@@ -28,11 +28,7 @@ defmodule VRChatOSC.OSC do
       )
 
     {:ok, consumer} =
-      GenStage.start_link(
-        consumer_args[:module],
-        consumer_args[:args],
-        consumer_args[:opts] || []
-      )
+      GenStage.start_link(consumer_args[:module], consumer_args[:args], consumer_args[:opts] || [])
 
     {:ok, _} = GenStage.sync_subscribe(consumer, to: client)
 
@@ -48,10 +44,6 @@ defmodule VRChatOSC.OSC do
     GenServer.start_link(__MODULE__, args, name: name)
   end
 
-  def send_message(osc, message) do
-    GenServer.cast(osc, {:send_message, message})
-  end
-
   @impl true
   def handle_cast({:send_message, message}, state) do
     Client.send_message(
@@ -61,7 +53,6 @@ defmodule VRChatOSC.OSC do
         args: message[:args]
       }
     )
-
     {:noreply, state}
   end
 end

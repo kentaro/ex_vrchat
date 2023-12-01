@@ -6,7 +6,11 @@ defmodule MyConsumer do
   end
 
   def handle_events(events, {_, _}, state) do
-    events |> Enum.each(&IO.inspect/1)
+    events |> Enum.each(fn event ->
+      if !(event.path |> String.starts_with?("/avatar/parameters/scarf_Angle")) do
+        IO.inspect(event)
+      end
+    end)
     {:noreply, [], state}
   end
 end
@@ -26,7 +30,7 @@ end
   ]
 )
 
-VRChatOSC.OSC.send_message(
+VRChatOSC.send_message(
   osc,
   path: "/chatbox/input",
   args: ["Hello, world!", true]
