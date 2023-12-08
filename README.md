@@ -51,7 +51,7 @@ end
   ]
 )
 
-VRChatOSC.OSC.send_message(
+VRChatOSC.send_message(
   osc,
   path: "/chatbox/input",
   args: ["Hello, world!", true]
